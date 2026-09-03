@@ -40,6 +40,18 @@
             <option value="sports" @selected(request('genre') == 'sports')>Sports</option>
         </select>
 
+<<<<<<< HEAD
+=======
+        {{-- Dropdown Dummy Visual (Agar tampilan utuh seperti referensi) --}}
+        <select disabled class="bg-[#0f1115]/50 border border-[#2d3342]/50 text-gray-500 rounded-xl px-4 py-2.5 text-sm outline-none appearance-none cursor-not-allowed min-w-[110px]">
+            <option>All Status</option>
+        </select>
+        
+        <select disabled class="bg-[#0f1115]/50 border border-[#2d3342]/50 text-gray-500 rounded-xl px-4 py-2.5 text-sm outline-none appearance-none cursor-not-allowed min-w-[120px]">
+            <option>All Seasons</option>
+        </select>
+
+>>>>>>> e2ad118a2d88642b368d123fcf4bc7aa46618699
         {{-- Tombol Submit --}}
         <button type="submit" class="bg-gradient-to-r from-orange to-[#ea580c] hover:scale-105 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition-transform shadow-lg shadow-orange/20 flex items-center gap-2 cursor-pointer">
             <i class="fa-solid fa-filter"></i> Filter

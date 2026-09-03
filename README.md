@@ -1,11 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+    <circle cx="12" cy="12" r="12" fill="url(#grad1)"/>
+    <path d="M10 7.5L17 12L10 16.5V7.5Z" fill="white"/>
+    <defs>
+      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#facc15;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+  </svg>
 </p>
+
+<div align="center">
+  <img src="https://api.iconify.design/solar/play-circle-bold.svg?color=%23f97316&width=120" alt="AmPlay Logo">
+  <h1>AmPlay</h1>
+  <p><strong>Nonstop Anime Streaming & Exploration</strong></p>
+</div>
+
+<div align="center">
+
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+</div>
+
+AmPlay adalah aplikasi web *streaming* dan penjelajahan anime yang fleksibel, interaktif, dan sangat ringan. Dibangun dengan memadukan keandalan **Laravel (PHP)** sebagai kerangka kerja utama dan **Flask (Python)** sebagai *backend scraper* dinamis. 
+
+Antarmuka aplikasi ini dirancang khusus menggunakan konsep *Glassmorphism*, dilengkapi elemen teks dinamis, dan animasi 2D interaktif berbasis *HTML5 Canvas* untuk menghadirkan pengalaman navigasi tingkat tinggi.
+
+## ✨ Fitur Utama
+
+- **Live Search & Filter Cerdas**: Cari anime berdasarkan kata kunci, *genre*, atau tipe (TV, Movie, OVA) secara *real-time* dengan antarmuka dinamis.
+- **Pemutar Video Terintegrasi**: Tonton episode anime favorit Anda langsung di dalam aplikasi dengan dukungan pilihan bahasa (Sub/Dub).
+- **Sistem Cadangan (Fallback Mode)**: Web tetap responsif dan menampilkan data cadangan secara otomatis jika *server* sumber mengalami *timeout* atau pemblokiran jaringan.
+- **Animasi Interaktif 2D**: Dilengkapi partikel kursor interaktif, efek *3D-to-2D tilt* pada poster, dan transisi elemen visual yang super halus tanpa membebani memori peramban.
+- **Sistem Autentikasi Pengguna**: Fitur registrasi dan *login* aman untuk mengelola akun pribadi.
+- **Riwayat Tontonan & Komentar**: Lanjutkan episode yang terakhir ditonton dengan mudah dan bagikan pendapat di kolom komentar setiap anime.
+
+## 🛠️ Teknologi yang Digunakan
+
+*   **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript, HTML5 Canvas, Vanilla-Tilt.js.
+*   **Backend (Core)**: Laravel (PHP).
+*   **Backend (Scraper)**: Python (Flask, Cloudscraper, BeautifulSoup).
+*   **Database**: MySQL / SQLite.
+
+## 🚀 Instalasi & Konfigurasi
+
+Ikuti langkah-langkah berikut untuk menjalankan AmPlay di lingkungan pengembangan lokal Anda:
+
+### 1. Kloning Repositori
+```bash
+git clone https://github.com/USERNAME_ANDA/amplay.git
+cd amplay
+```
+
+### 2. Pengaturan Laravel (PHP)
+Pastikan Anda telah menginstal PHP dan Composer.
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+```
+
+### 3. Pengaturan Flask (Python)
+Pastikan Anda telah menginstal Python.
+```bash
+pip install flask cloudscraper beautifulsoup4
+```
+
+### 4. Instalasi Dependensi Frontend
+```bash
+npm install
+```
+
+### 5. Menjalankan Server
+AmPlay menggunakan skrip khusus untuk menjalankan server Laravel, *compiler* Vite (Tailwind), dan server Flask secara bersamaan.
+```bash
+npm run start:all
+```
+Aplikasi kini dapat diakses melalui `http://localhost:8000`. Jika ingin mengakses melalui perangkat lain di jaringan WiFi yang sama, gunakan alamat IP perangkat Anda beserta *port* 8000.
+
+## 👨‍💻 Pengembang
+
+Dikembangkan oleh **Pranaja Abi Praya Widya Tamaka**, Program Keahlian Rekayasa Perangkat Lunak, SMKN 5 Surakarta.
+
+---
 
 ## About Laravel
 
