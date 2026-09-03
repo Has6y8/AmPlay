@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\AniDBService;
 use App\Models\Comment;
 use App\Models\WatchHistory;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -63,15 +64,11 @@ class AnimeController extends Controller
     {
         $q = $request->input('q');
         
-        // Jika input kosong, kembalikan array kosong
         if (empty($q)) {
             return response()->json([]);
         }
 
-        // Cari anime berdasarkan keyword
         $results = $this->anidb->search(['q' => $q]);
-        
-        // Ambil 5 hasil teratas saja untuk preview
         $limitedResults = array_slice($results, 0, 5);
 
         return response()->json($limitedResults);
@@ -103,8 +100,10 @@ class AnimeController extends Controller
             ];
         }
 
-        // Ambil komentar beserta data usernya
         $comments = Comment::with('user')->where('anime_id', $animeId)->latest()->get();
+
+        $averageRating = Rating::where('anime_id', $animeId)->avg('rating');
+        $userRating = auth()->check() ? Rating::where('user_id', auth()->id())->where('anime_id', $animeId)->value('rating') : 0;
 
         return view('anime', [
             'animeId' => $animeId,
@@ -114,6 +113,8 @@ class AnimeController extends Controller
             'languages' => $languages,
             'preferredLang' => $preferredLang,
             'comments' => $comments,
+            'averageRating' => $averageRating ? round($averageRating, 1) : null,
+            'userRating' => $userRating,
         ]);
     }
 
@@ -140,5 +141,17 @@ class AnimeController extends Controller
     {
         $histories = WatchHistory::where('user_id', auth()->id())->latest('updated_at')->get();
         return view('history', compact('histories'));
+    }
+
+    public function rate(Request $request, string $animeId)
+    {
+        $request->validate(['rating' => 'required|integer|min:1|max:5']);
+
+        Rating::updateOrCreate(
+            ['user_id' => auth()->id(), 'anime_id' => $animeId],
+            ['rating' => $request->rating]
+        );
+
+        return back()->with('success', 'Thanks for rating this anime!');
     }
 }

@@ -1,12 +1,20 @@
 @extends('layouts.app')
 @section('title', ($animeInfo['judul'] ?? 'Anime Details') . ' - AmPlay')
 
+@section('head')
+<style>
+    .star-rating button:hover,
+    .star-rating button:hover ~ button,
+    .star-rating button.peer:hover ~ button {
+        color: #facc15 !important;
+    }
+</style>
+@endsection
+
 @section('content')
     <div class="fade-in">
-        {{-- Header Actions: Navigasi & Refresh --}}
         <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
             @php
-                // Logika url Back dipertahankan persis seperti aslinya
                 $prevUrl = url()->previous();
                 $currentUrl = url()->current();
                 $fromWatch = strpos($prevUrl, '/watch/') !== false;
@@ -32,12 +40,9 @@
             </form>
         </div>
 
-        {{-- Info Card Utama --}}
         <div class="bg-card/80 backdrop-blur-md rounded-3xl p-6 md:p-8 mb-8 flex flex-col md:flex-row gap-8 shadow-xl border border-[#2d3342] relative overflow-hidden">
-            {{-- Hiasan Background Glow --}}
             <div class="absolute -top-24 -right-24 w-64 h-64 bg-orange/20 rounded-full blur-3xl pointer-events-none"></div>
 
-            {{-- Elemen Grafik: Poster dengan Interaksi 2D Tilt --}}
             <div class="flex-shrink-0 w-48 md:w-64 aspect-[2/3] rounded-2xl bg-[#0f1115] overflow-hidden mx-auto md:mx-0 shadow-2xl border-2 border-[#2d3342] relative z-10" data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-perspective="1000">
                 @if (!empty($animeInfo['poster_url']))
                     <img src="{{ $animeInfo['poster_url'] }}" alt="{{ $animeInfo['judul'] }}" class="w-full h-full object-cover">
@@ -47,7 +52,6 @@
             </div>
             
             <div class="flex-1 flex flex-col justify-center relative z-10">
-                {{-- Metadata Tags --}}
                 <div class="flex flex-wrap gap-2 mb-4">
                     <a href="{{ route('search', ['type' => $animeInfo['type'] ?? 'TV']) }}" class="bg-gradient-to-r from-orange to-[#ea580c] text-white px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider hover:scale-105 transition-transform shadow-md">
                         {{ $animeInfo['type'] ?? 'TV' }}
@@ -55,12 +59,31 @@
                     <span class="bg-[#0f1115] border border-[#2d3342] text-gray-300 px-3 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm">
                         <i class="fa-solid fa-signal text-green-400"></i> {{ $animeInfo['status'] ?? 'Unknown' }}
                     </span>
-                    <span class="bg-[#0f1115] border border-[#2d3342] text-gray-300 px-3 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm">
-                        <i class="fa-solid fa-star text-yellow-400"></i> {{ $animeInfo['score'] ?? '?' }}
-                    </span>
+                    
+                    <div class="bg-[#0f1115] border border-[#2d3342] text-gray-300 px-3 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm relative group cursor-pointer">
+                        <i class="fa-solid fa-star text-yellow-400"></i> 
+                        {{ $averageRating ?? 'No Ratings' }} 
+                        @if($averageRating) <span class="text-gray-500 font-normal">/ 5</span> @endif
+
+                        @auth
+                            <div class="absolute top-full left-0 mt-2 p-3 bg-card border border-[#2d3342] rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 flex gap-1">
+                                <form action="{{ route('anime.rate', $animeId) }}" method="POST" class="flex flex-row-reverse justify-end star-rating">
+                                    @csrf
+                                    @for($i = 5; $i >= 1; $i--)
+                                        <button type="submit" name="rating" value="{{ $i }}" class="text-2xl {{ $userRating >= $i ? 'text-yellow-400' : 'text-gray-600' }} hover:text-yellow-400 peer peer-hover:text-yellow-400 transition-colors">
+                                            <i class="fa-solid fa-star"></i>
+                                        </button>
+                                    @endfor
+                                </form>
+                            </div>
+                        @else
+                            <div class="absolute top-full left-0 mt-2 p-3 bg-card border border-[#2d3342] rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 whitespace-nowrap text-[10px] text-gray-400">
+                                Login to rate
+                            </div>
+                        @endauth
+                    </div>
                 </div>
 
-                {{-- Judul Teks Dinamis --}}
                 <h1 class="text-3xl md:text-5xl font-black text-white mb-5 leading-tight drop-shadow-lg tracking-tight">{{ $animeInfo['judul'] ?? 'Unknown' }}</h1>
                 
                 @if(!empty($animeInfo['genres']))
@@ -82,7 +105,6 @@
                     </span>
                 </div>
                 
-                {{-- Sinopsis Interaktif 2D (Expand/Collapse Mulus) --}}
                 @if (!empty($animeInfo['sinopsis']))
                     <div class="mt-auto bg-[#0f1115]/50 rounded-2xl p-5 border border-[#2d3342] hover:border-[#3f475a] transition-colors">
                         <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
@@ -106,7 +128,6 @@
             </div>
         </div>
 
-        {{-- Filter Bahasa Audio/Sub (Dipertahankan 100%) --}}
         <div class="bg-card/80 backdrop-blur-md rounded-2xl p-5 border border-[#2d3342] mb-10 flex items-center gap-4 flex-wrap shadow-md">
             <span class="text-sm font-bold text-gray-300 uppercase tracking-wide"><i class="fa-solid fa-earth-americas text-orange mr-1"></i> Audio/Sub:</span>
             <div class="flex gap-2 flex-wrap">
@@ -132,14 +153,12 @@
             </div>
         </div>
 
-        {{-- Area Episode --}}
         <div>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
                 <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
                     <i class="fa-solid fa-play text-orange"></i> Episode List
                 </h2>
                 
-                {{-- Dropdown Halaman (Dipertahankan 100%) --}}
                 @if ($episodes->lastPage() > 1)
                     <div class="relative min-w-[220px]">
                         <select onchange="window.location.href=this.value" 
@@ -171,10 +190,8 @@
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     @foreach ($episodes as $ep)
-                        {{-- Animasi 2D Interaktif CSS pada Kartu Episode --}}
                         <a href="{{ route('episode.watch', ['animeId' => $animeId, 'episodeId' => $ep['id'], 'lang' => $preferredLang]) }}" 
                            class="bg-card rounded-2xl p-4 border border-[#2d3342] hover:border-orange transition-all duration-300 group flex items-center gap-4 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange/10 overflow-hidden relative">
-                            {{-- Efek Glow saat hover --}}
                             <div class="absolute right-0 top-0 w-16 h-16 bg-orange/5 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             
                             <div class="w-14 h-14 rounded-xl bg-[#0f1115] border border-[#2d3342] flex items-center justify-center text-gray-400 font-black text-lg group-hover:bg-orange group-hover:text-white group-hover:border-orange transition-all duration-300 shadow-inner group-hover:shadow-orange/40">
@@ -191,7 +208,6 @@
                     @endforeach
                 </div>
 
-                {{-- Pagination Links Bawah (Dipertahankan 100%) --}}
                 @if ($episodes->hasPages())
                     <div class="mt-12 flex justify-center items-center gap-2 flex-wrap">
                         @if ($episodes->onFirstPage())
@@ -235,9 +251,7 @@
             @endif
         </div>
 
-        {{-- Area Komentar --}}
         <div class="mt-16 bg-card/80 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-[#2d3342] shadow-xl relative overflow-hidden">
-            {{-- Elemen Teks Dinamis: Jumlah Komentar --}}
             <h2 class="text-2xl font-black text-white mb-8 flex items-center gap-3">
                 <i class="fa-regular fa-comments text-orange"></i> Comments 
                 <span class="bg-orange/20 text-orange px-3 py-1 rounded-lg text-sm">{{ count($comments) }}</span>
@@ -277,7 +291,6 @@
                                 </div>
                                 <div>
                                     <span class="font-bold text-white text-sm block">{{ $comment->user->name }}</span>
-                                    {{-- Teks Dinamis: Waktu --}}
                                     <span class="text-[11px] text-gray-500 font-medium"><i class="fa-regular fa-clock mr-1"></i> {{ $comment->created_at->diffForHumans() }}</span>
                                 </div>
                             </div>
