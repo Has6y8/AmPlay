@@ -11,14 +11,19 @@
   </svg>
 </p>
 
-<h1 align="center">AmPlay</h1>
-<p align="center"><strong>Nonstop Anime Streaming & Exploration</strong></p>
+<div align="center">
+  <img src="https://api.iconify.design/solar/play-circle-bold.svg?color=%23f97316&width=120" alt="AmPlay Logo">
+  <h1>AmPlay</h1>
+  <p><strong>Nonstop Anime Streaming & Exploration</strong></p>
+</div>
 
-<p align="center">
-  <a href="#"><img src="[https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)" alt="Laravel"></a>
-  <a href="#"><img src="[https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)" alt="Python Flask"></a>
-  <a href="#"><img src="[https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)" alt="Tailwind CSS"></a>
-</p>
+<div align="center">
+
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+</div>
 
 AmPlay adalah aplikasi web *streaming* dan penjelajahan anime yang fleksibel, interaktif, dan sangat ringan. Dibangun dengan memadukan keandalan **Laravel (PHP)** sebagai kerangka kerja utama dan **Flask (Python)** sebagai *backend scraper* dinamis. 
 
